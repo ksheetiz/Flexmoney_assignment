@@ -5,6 +5,13 @@ import env from "dotenv";
 
 const app = express();
 
+// const db = mysql.createConnection({
+//     host : 'localhost',
+//     user : 'root',
+//     password : '',
+//     database : 'flexmoney'
+// })
+
 const db = mysql.createConnection({
     host : process.env.DB_HOST,
     user : process.env.DB_USER,
@@ -75,7 +82,7 @@ app.post("/api/register",async(req,res)=>{
 })
 
 app.post("/api/update_membership",(req,res)=>{
-    const query = `UPDATE person SET last_fees_date = '${req.body.fees_date}' , validity_date = date_add('${req.body.fees_date}',INTERVAL 1 MONTH) where email = '${req.body.email}' AND ((SELECT DATEDIFF((SELECT curdate()), (SELECT validity_date from person where memid= ${req.body.id} ))) = 1);`;
+    const query = `UPDATE person SET last_fees_date = '${req.body.fees_date}' , validity_date = date_add('${req.body.fees_date}',INTERVAL 1 MONTH) where email = '${req.body.email}';`;
 
     
 
@@ -85,20 +92,15 @@ app.post("/api/update_membership",(req,res)=>{
     });
 })
 
-app.post("/api/update_batch",async(req,res)=>{
+app.post("/api/update_batch",(req,res)=>{
 
-    const query = "UPDATE membership SET batch_selected = ? where id = ? AND ((SELECT DATEDIFF((SELECT curdate()), (SELECT validity_date from person where memid= ? ))) = 1);";
+    const query = "UPDATE membership SET batch_selected = ? where id = ? ;";
 
-    console.log(req.body.batch);
-
-    try{
-        db.awaitQuery(query,[req.body.batch,req.body.id,req.body.id],(err,data)=>{
-            return res.status(200);
+        db.query(query,[req.body.batch,req.body.id],(err,data)=>{
+            if(err) return res.json(err);
+            return res.json(data);
         });
-    }
-    catch(e){
-        return res.json(e);
-    }
+        
 })
 
 app.listen(process.env.PORT || 8800,()=>{
