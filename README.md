@@ -23,7 +23,7 @@ This repository is for uploading assignment solution.
    - The user here can change the Batch timing and renew its membership (assuming the membership s going to expire soon and the batch timing can be changed at that time).
    - When trying to login the user is asked with email and password used at the time of registration . The email contains basic regex validation for correct input at frontend. If the credentials entered by the user is wrong an error message is shown at the top containg the error message (also generated using react hot toast).
 
-  ## Delpoyment Instruction
+  ## Deployment Instruction
    - Clone the Repo to the system.
    - In the frontend directory (assuming the system has node.js configured) run the command in sequence. 
    ```
