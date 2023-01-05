@@ -1,5 +1,3 @@
-# Flexmoney_assignment
-This repository is for uploading assignment solution.
 
 ## TECH Stack
   
